@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Convertor</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .container {
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sub-container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sub-container select {
+            height: 20px;
+            position: relative;
+            top: 20px;
+            left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="sub-container1">
+            <p>From</p>
+            <select name="from" id="from-select" title="from">
+                <!-- <option value="USD" selected>USD</option> -->
+            </select>
+        </div>
+
+        <div class="sub-container2">
+            <p>To</p>
+            <select name="to" id="to-select" title="to"></select>
+        </div>
+
+    </div>
+    <div class="button">
+        <button id="btn">Exchange Rate</button>
+    </div>
+
+    <script>
+        let from_select = document.querySelector(".sub-container1 select");
+        // console.log(from_select.value);
+        let to_select = document.querySelector(".sub-container2 select");
+        // console.log(to_select);
+
+        let base_url = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies";
+        
+        async function getData() {
+            let URL = `${base_url}/${from_select.value.toLowerCase()}/${to_select.value.toLowerCase()}.json`;
+            let response = await fetch(URL);
+            console.log(response);
+            let data = await response.json();
+            console.log(data);
+        }
+        // getData();
+
+        const countryList = {
+            AED: "AE",
+            AFN: "AF",
+            XCD: "AG",
+            ALL: "AL",
+            AMD: "AM",
+            ANG: "AN",
+            AOA: "AO",
+            AQD: "AQ",
+            ARS: "AR",
+            AUD: "AU",
+            AZN: "AZ",
+            BAM: "BA",
+            BBD: "BB",
+            BDT: "BD",
+            XOF: "BE",
+            INR: "IN",
+            USD: "US",
+            JPY: "JP"
+        };
+
+        // For form-select
+        for (const currCode in countryList) {
+            //console.log(currCode);
+            let newOption = document.createElement("option");
+            newOption.innerText = currCode;
+            newOption.value = currCode;
+            /*if(from_select.name === "from" && currCode === "USD"){
+                newOption.selected = "selected";
+            }*/
+            from_select.append(newOption);
+        }
+        let currCode;
+        let small_currCode;
+        let target ;
+        from_select.addEventListener("change", (e)=>{
+            //console.log(e.target.value); // select tag
+            target = e.target.value; 
+            getCurrCodeOfFrom();
+        });
+        console.log(target);
+        // currCode = this.value;
+        // let small_currCode = currCode.toLowerCase();
+        /*let currCode = from_select.value;
+        small_currCode = currCode.toLowerCase();
+        console.log(currCode);
+        console.log(small_currCode);*/
+        //return small_currCode;
+
+        // );
+
+        function getCurrCodeOfFrom() {
+            currCode = from_select.value;
+            small_currCode = currCode.toLowerCase();
+            console.log(currCode);
+            console.log(small_currCode);
+            // return small_currCode;
+        }
+
+        
+
+
+        // For to-select
+        for (const currCode in countryList) {
+            //console.log(currCode);
+            let newOption = document.createElement("option");
+            newOption.innerText = currCode;
+            newOption.value = currCode;
+            if (to_select.name === "to" && currCode === "INR") {
+                newOption.selected = "selected";
+            }
+            to_select.append(newOption);
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
